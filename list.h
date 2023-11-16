@@ -1,98 +1,3 @@
-/*
-±¸Çö ¼ø¼­¿¡ µû¸¥ ½´µµ ÄÚµå
-
-0. ³ëµå ±¸Á¶Ã¼ Á¤ÀÇ
-typedef struct Node
-{
-    Á¤¼öÇü data;
-    ¾Õ ³ëµå¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ »ı¼º(prev_node)
-    µŞ ³ëµå¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ »ı¼º(next_node)
-} Node;
-
-1. ³ëµå »ı¼º
-Node *CreateNode(int data)
-{
-    ³ëµå µ¿Àû ÇÒ´ç(Èü¿¡ ³ëµå¸¦ ³Ö°í ÁÖ¼Ò¸¸ µû¿Â´Ù.)
-    »ı¼º ³ëµåÀÇ µ¥ÀÌÅÍ¿¡ ÀÔ·Â µ¥ÀÌÅÍ ÇÒ´ç
-    »ı¼º ³ëµåÀÇ ¾Õ ³ëµå Æ÷ÀÎÅÍ¿¡ NULL ÇÒ´ç
-    »ı¼º ³ëµåÀÇ µŞ ³ëµå Æ÷ÀÎÅÍ¿¡ NULL ÇÒ´ç
-
-    »ı¼º ³ëµå ¹İÈ¯(µ¿Àû ÇÒ´ç¿¡ µû¶ó ÁÖ¼Ò¸¦ ¹İÈ¯)
-}
-
-2. ³ëµå Ãß°¡
-void AppendNode(Node **head, Node *new_node)
-{
-    ¸¸¾à head°¡ °¡¸®Å°´Â ³ëµå°¡ NULLÀÌ¸é
-        head¿¡ »ı¼º ³ëµå »ğÀÔ
-    ±×·¸Áö ¾ÊÀ¸¸é(head°¡ ¾î¶² ³ëµå¸¦ °¡¸®Å°°í ÀÖ´Ù¸é)
-        ³ëµå Æ÷ÀÎÅÍ current¸¦ head°¡ °¡¸®Å°´Â ³ëµå·Î ¼³Á¤
-        ¹İº¹ (currentÀÇ µŞ ³ëµå Æ÷ÀÎÅÍ°¡ NULLÀÌ ¾Æ´Ò ¶§±îÁö)
-            current¸¦ current°¡ °¡¸®Å°´Â µŞ ³ëµå Æ÷ÀÎÅÍ·Î ÀÌµ¿
-        <¾ç¹æÇâ ¿¬°á>
-        current°¡ °¡¸®Å°´Â ³ëµåÀÇ µŞ ³ëµå Æ÷ÀÎÅÍ¸¦ new_node·Î ¼³Á¤
-        new_nodeÀÇ ¾Õ ³ëµå Æ÷ÀÎÅÍ¸¦ current·Î ¼³Á¤
-}
-
-3. ³ëµå °Ë»ö
-Node *SearchNode(Node *current, int data)
-{
-    ¸¸¾à current°¡ NULLÀÌ¶ó¸é (ºñ¾î ÀÖ´Â ÄÉÀÌ½º ´ëºñ)
-        NULL ¹İÈ¯
-    ¹İº¹ (current°¡ NULLÀÌ ¾Æ´Ò ¶§±îÁö)
-        ¸¸¾à ³ëµå currentÀÇ data°¡ ÀÔ·ÂµÈ data¿Í ÀÏÄ¡ÇÑ´Ù¸é
-            ³ëµå current ¹İÈ¯
-        ±×·¸Áö ¾Ê´Ù¸é(data°¡ ÀÏÄ¡ÇÏÁö ¾Ê´Â´Ù¸é)
-            current¸¦ ´ÙÀ½ ³ëµå·Î ÀÌµ¿
-    Ã£Áö ¸øÇßÀ» °æ¿ì
-        NULL ¹İÈ¯
-}
-
-4. ³ëµå »èÁ¦
-Node *RemoveNode(Node **head, int data)
-{
-    ³ëµå Æ÷ÀÎÅÍ Å¸°Ù = SearchNode·Î Ã£Àº °ª
-    ¸¸¾à Å¸°ÙÀÌ NULLÀÌ ¾Æ´Ï¶ó¸é
-        ¸¸¾à head°¡ Å¸°ÙÀ» °¡¸®Å°°í ÀÖ´Ù¸é
-            head¸¦ Å¸°ÙÀÇ ´ÙÀ½ ³ëµå·Î ¾÷µ¥ÀÌÆ®
-            ¸¸¾à head°¡ NULLÀÌ ¾Æ´Ï¸é
-                head°¡ °¡¸®Å°´Â ³ëµåÀÇ ¾Õ ³ëµå Æ÷ÀÎÅÍ¸¦ NULL·Î ¼³Á¤
-        ±×·¸Áö ¾ÊÀ¸¸é (head ÀÌ¿ÜÀÇ ³ëµå°¡ Å¸°ÙÀÌ¶ó¸é)
-            Å¸°ÙÀÇ ´ÙÀ½ ³ëµå°¡ NULLÀÌ ¾Æ´Ï¶ó¸é
-                Å¸°Ù µŞ ³ëµåÀÇ ¾Õ ³ëµå Æ÷ÀÎÅÍ¸¦ Å¸°ÙÀÇ ¾Õ ³ëµå Æ÷ÀÎÅÍ·Î ¾÷µ¥ÀÌÆ®
-            ±×·¸Áö ¾ÊÀ¸¸é (Å¸°ÙÀÇ ´ÙÀ½ ³ëµå°¡ NULLÀÌ¶ó¸é)
-                Å¸°Ù ¾Õ ³ëµåÀÇ µŞ ³ëµå Æ÷ÀÎÅÍ¸¦ Å¸°ÙÀÇ µŞ ³ëµå Æ÷ÀÎÅÍ·Î ¼³Á¤
-        Å¸°ÙÀÇ ¾Õ ³ëµå Æ÷ÀÎÅÍ¸¦ NULL·Î ¼³Á¤
-        Å¸°ÙÀÇ µŞ ³ëµå Æ÷ÀÎÅÍ¸¦ NULL·Î ¼³Á¤
-    Å¸°Ù ¹İÈ¯
-}
-
-5. ¸®½ºÆ® Ãâ·Â
-void PrintList(Node *current)
-{
-    ¸¸¾à current°¡ NULLÀÌ¸é
-        "ºó ¸®½ºÆ®" Ãâ·Â
-    ±×·¸Áö ¾ÊÀ¸¸é (current°¡ °¡¸®Å°´Â °Ô ÀÖÀ¸¸é)
-        ¹İº¹ (current°¡ NULLÀÌ ¾Æ´Ò ¶§±îÁö)
-            Ãâ·Â (current Æ÷ÀÎÅÍ, current ¾Õ ³ëµå Æ÷ÀÎÅÍ, current µ¥ÀÌÅÍ, current µŞ ³ëµå Æ÷ÀÎÅÍ)
-            current¸¦ µŞ ³ëµå Æ÷ÀÎÅÍ·Î ÀÌµ¿
-}
-
-6. ¸®½ºÆ® »èÁ¦
-void DestroyList(Node *current)
-{
-    Á¦°ÅÇÒ ³ëµå Æ÷ÀÎÅÍ¿¡ current »ğÀÔ
-    ¹İº¹ (Á¦°ÅÇÒ ³ëµå°¡ NULLÀÌ ¾Æ´Ò ¶§±îÁö)
-        ÇöÀç ³ëµå¸¦ ÇöÀç ³ëµåÀÇ ´ÙÀ½ ³ëµå·Î ¾÷µ¥ÀÌÆ®
-        µ¿Àû ÇÒ´ç ÇØÁ¦
-        Á¦°ÅÇÒ ³ëµå¸¦ ¾÷µ¥ÀÌÆ®
-}
-*/
-
-#include <stdio.h>
-#include <stdlib.h>
-
-// 0. ³ëµå ±¸Á¶Ã¼ Á¤ÀÇ
 typedef struct Node
 {
     int data;
@@ -100,87 +5,18 @@ typedef struct Node
     struct Node *next_node;
 } Node;
 
-// 1. ³ëµå »ı¼º
-Node *CreateNode(int data)
-{
-    Node *new_node = (Node *)malloc(sizeof(Node));
-    new_node->data = data;
-    new_node->prev_node = NULL;
-    new_node->next_node = NULL;
+Node *CreateNode(int key);
 
-    return new_node;
-}
+void AppendNode(Node **head, Node *new_node);
 
-// 2. ³ëµå Ãß°¡
-void AppendNode(Node **head, Node *new_node)
-{
-    if (*head == NULL) *head = new_node;
-    else
-    {
-        Node *current = *head;
-        while(current->next_node != NULL) current = current->next_node;
-        current->next_node = new_node;
-        new_node->prev_node = current;
-    }
-}
+Node *SearchNode(Node *current, int data);
 
-// 3. ³ëµå °Ë»ö
-Node *SearchNode(Node *current, int data)
-{
-    if(current == NULL) return NULL;
-    while(current != NULL) {
-        if(current->data == data) return current;
-        current = current->next_node;
-    }
-    return NULL;
-}
+Node *RemoveNode(Node **head, int data);
 
-// 4. ³ëµå »èÁ¦
-Node *RemoveNode(Node **head, int data)
-{
-    Node *target = SearchNode(*head, data);
-    if (target != NULL)
-    {
-        if (*head == target)
-        {
-            *head = target->next_node;
-            if (*head != NULL)
-                (*head)->prev_node = NULL;
-        }
-        else
-        {
-            if (target->next_node != NULL) 
-                target->next_node->prev_node = target->prev_node;
-            target->prev_node->next_node = target->next_node;
-        }
-        target->prev_node = NULL;
-        target->next_node = NULL;
-    }
-    return target;
-}
+void DestroyNode(Node *target);
 
-void DestroyNode(Node *target)
-{
-    free(target);
-}
+// 5. ë¦¬ìŠ¤íŠ¸ ì¶œë ¥
+void PrintList(Node *current);
 
-// 5. ¸®½ºÆ® Ãâ·Â
-void PrintList(Node *current) {
-    if(current == NULL) printf("ºó ¸®½ºÆ®\n");
-    else {
-        while(current != NULL) {
-            printf("[%p] %p %d %p\n", current, current->prev_node, current->data, current->next_node);
-            current = current->next_node;
-        }
-    }
-}
-
-// 6. ¸®½ºÆ® »èÁ¦
-void DestroyList(Node *current) {
-    Node* remove = current;
-    while(remove != NULL) {
-        current = current->next_node;
-        free(remove);
-        remove = current;
-    }
-}
+// 6. ë¦¬ìŠ¤íŠ¸ ì‚­ì œ
+void DestroyList(Node *current);
